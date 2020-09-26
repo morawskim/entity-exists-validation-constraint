@@ -41,7 +41,7 @@ matrix:
 before_install:
   - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
   - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
-  - composer require --no-update symfony/flex ${DEPENDENCIES}
+  - composer require --no-update symfony/flex:^1.6 ${DEPENDENCIES}
   - if ! [ -z "$SYMFONY_VERSION" ]; then composer config extra.symfony.require "${SYMFONY_VERSION}"; fi;
 
 
