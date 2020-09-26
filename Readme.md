@@ -82,5 +82,5 @@ services:
 
 ## Note
 
-The Validator will not produce a violation when value is empty. This means that you should most likely use it in
-combination with `NotBlank`. 
+The Validator will not produce a violation when value is empty (empty string or null). This means that you should most likely use it in
+combination with `NotBlank`.

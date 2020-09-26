@@ -99,10 +99,43 @@ class EntityExistValidatorTest extends TestCase
         $this->validator->validate($value, $constraint);
     }
 
+    /**
+     * @dataProvider getZero
+     */
+    public function testAllowZeroAsEntityId($value)
+    {
+        $this->context->expects($this->never())->method('buildViolation');
+        $constraint = new  EntityExist();
+        $constraint->entity = 'App\Entity\User';
+
+        $repository = $this->getMockBuilder(EntityRepository::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $repository
+            ->expects($this->exactly(1))
+            ->method('findOneBy')
+            ->with(['id' => $value])
+            ->willReturn('my_user');
+
+        $this->entityManager
+            ->expects($this->exactly(1))
+            ->method('getRepository')
+            ->with('App\Entity\User')
+            ->willReturn($repository);
+
+        $this->validator->validate($value, $constraint);
+    }
+
     public function getEmptyOrNull()
     {
         yield [''];
         yield [null];
+    }
+
+    public function getZero()
+    {
+        yield [0];
+        yield ['0'];
     }
 
     public function testValidateValidEntityWithCustomProperty()
